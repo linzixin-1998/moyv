@@ -1,17 +1,3 @@
-<script setup lang="ts">
-import Versions from './components/Versions.vue'
-import { useElectronUpdate } from '@/renderer/hook/useElectronUpdate'
-
-const { progress, checkNewVersion } = useElectronUpdate()
-
-// onCheckVersion((_hasNewVersion: boolean, _info: any) => {
-//   downloadNewVersion()
-// })
-const update = () => {
-  checkNewVersion()
-}
-</script>
-
 <template>
   <n-dialog-provider>
     <img alt="logo" class="logo" src="./assets/electron.svg" />
@@ -38,3 +24,23 @@ const update = () => {
     <Versions />
   </n-dialog-provider>
 </template>
+
+<script setup lang="ts">
+import Versions from './components/Versions.vue'
+import { useElectronUpdate } from '@/renderer/hook/useElectronUpdate'
+
+const { progress, checkNewVersion } = useElectronUpdate()
+
+// onCheckVersion((_hasNewVersion: boolean, _info: any) => {
+//   downloadNewVersion()
+// })
+const update = () => {
+  checkNewVersion()
+}
+</script>
+
+<style lang="scss" scoped>
+.app {
+  border-radius: 16px;
+}
+</style>

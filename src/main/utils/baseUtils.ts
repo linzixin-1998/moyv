@@ -44,3 +44,7 @@ export const downloadFile = async (url: string, savePath: string) => {
     return
   }
 }
+
+export const sleep = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

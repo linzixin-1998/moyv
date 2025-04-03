@@ -8,8 +8,11 @@
     "src/renderer/**/*",
     "src/renderer/**/*.vue",
     "src/preload/*.d.ts",
-     "src/common/**/*"
-, "src/renderer/stores", "src/renderer/router", "src/renderer/App.vue", "src/renderer/main.ts"  ],
+     "src/common/**/*",
+      "src/renderer/stores",
+       "src/renderer/router",
+        "src/renderer/App.vue",
+        "src/renderer/main.ts",  ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": "./",

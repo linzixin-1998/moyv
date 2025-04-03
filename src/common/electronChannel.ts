@@ -17,3 +17,7 @@ export enum UPDATE_CHANNEL {
   UPDATE_ZIP_INCREMENTAL_SUCCESS = 'update-zip-incremental-success',
   UPDATE_ASAR_INCREMENTAL_DOWNLOADED = 'update-asar-incremental-downloaded'
 }
+
+export enum SLIDE_CHANNEL {
+  SNAP_TO_EDGE = 'snap-to-edge'
+}

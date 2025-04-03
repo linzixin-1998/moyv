@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './assets/main.scss'
 import 'uno.css'
 import '@unocss/reset/eric-meyer.css' // unocss提供的浏览器默认样式重置
 

@@ -1,7 +1,27 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useConfigStore } from '@/renderer/stores/modules/config'
 
-export const routes = []
+export const routes = [
+  {
+    path: '/',
+    name: 'Webview',
+    redirect: '/setting'
+  },
+  {
+    path: '/webview',
+    component: () => import('@/renderer/view/webview/index.vue'),
+    meta: {
+      title: 'webview'
+    }
+  },
+  {
+    path: '/setting',
+    component: () => import('@/renderer/view/setting/index.vue'),
+    meta: {
+      title: 'setting'
+    }
+  }
+]
 
 const router = createRouter({
   history: createWebHashHistory(), // history 模式则使用 createWebHistory()

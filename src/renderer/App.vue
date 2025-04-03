@@ -1,46 +1,34 @@
 <template>
-  <n-dialog-provider>
-    <img alt="logo" class="logo" src="./assets/electron.svg" />
-    <div class="creator">Powered by electron-vite</div>
-    <div class="text">
-      Build an Electron app with
-      <span class="vue">Vue2134234</span>
-      and
-      <span class="ts">TypeScript</span>
+  <div class="app flex column">
+    <MenuDrag v-if="edge === 'right'" position="right" />
+    <div class="content">
+      <RouterView v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" />
+        </KeepAlive>
+      </RouterView>
     </div>
-    <p class="tip">Please try pressing <code>F12</code> to open the devTool</p>
-    <div class="actions">
-      <div class="action">
-        <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">Documentation</a>
-      </div>
-      <div class="action">
-        <a target="_blank" rel="noreferrer">Send IPC</a>
-      </div>
-      <div class="action" @click="update">
-        <a target="_blank" rel="noreferrer">更新</a>
-      </div>
-    </div>
-    <div>progress: {{ progress }}</div>
-    <Versions />
-  </n-dialog-provider>
+    <MenuDrag v-if="edge === 'left'" position="left" />
+  </div>
 </template>
 
 <script setup lang="ts">
-import Versions from './components/Versions.vue'
-import { useElectronUpdate } from '@/renderer/hook/useElectronUpdate'
+import { useElectronUpdate } from '@/renderer/hook/useSlideEvent'
+import MenuDrag from '@/renderer/components/MenuDrag.vue'
 
-const { progress, checkNewVersion } = useElectronUpdate()
-
-// onCheckVersion((_hasNewVersion: boolean, _info: any) => {
-//   downloadNewVersion()
-// })
-const update = () => {
-  checkNewVersion()
-}
+const { edge } = useElectronUpdate()
 </script>
 
 <style lang="scss" scoped>
 .app {
   border-radius: 16px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  overflow: hidden;
+  box-shadow: 4px 4px 8px rgba(17, 17, 17, 0.2); /* 立体阴影 */
+  .content {
+    flex: 1;
+    background-color: var(--primary-content-color);
+  }
 }
 </style>

@@ -2,6 +2,7 @@ import { BaseWindow, IBaseWindowOptions } from './baseWindow'
 import { screen } from 'electron'
 import { sleep } from '../utils/baseUtils'
 import robot from 'robotjs'
+import { SLIDE_CHANNEL } from '../../common/electronChannel'
 
 export class SlideWindow extends BaseWindow {
   private snapState = {
@@ -11,16 +12,23 @@ export class SlideWindow extends BaseWindow {
     isDragging: false,
     snapPosition: [] as number[]
   }
+
+  // 自动贴边的距离边缘的边距
   private MARGIN = 10
 
+  // 滑动动画的时长
   private ANIMATE_DURATION = 300
 
+  // 窗口是否正在移动
   private isMoving = false
 
+  // 窗口是否隐藏
   private isVisible = true
 
+  // 鼠标移动检测
   private mouseCheckInterval: NodeJS.Timeout | null = null
 
+  // 最后保存的窗口位置
   private lastPosition: number[] = []
 
   constructor(option: IBaseWindowOptions) {
@@ -28,26 +36,23 @@ export class SlideWindow extends BaseWindow {
     this.registerEvents()
   }
 
+  // 注册事件
   registerEvents() {
-    this.window.on('will-move', () => {
-      this.isMoving = true
-      this.isVisible = true
-    })
-
-    // 处理窗口拖动结束
-    this.window.on('moved', () => {
-      this.isMoving = false
-      this.snapToEdge()
-    })
-    this.window.on('blur', async () => {
-      if (!this.window || !this.isVisible) return
-
-      await this.snapToEdge()
-
-      await this.hideWindow()
-    })
-
     this.startMousePositionCheck()
+    this.window
+      .on('will-move', () => {
+        this.isMoving = true
+        this.isVisible = true
+      })
+      .on('moved', () => {
+        this.isMoving = false
+        this.snapToEdge()
+      })
+      .on('blur', async () => {
+        if (!this.window || !this.isVisible) return
+        await this.snapToEdge()
+        await this.hideWindow()
+      })
   }
 
   detectDisplay() {
@@ -76,8 +81,11 @@ export class SlideWindow extends BaseWindow {
     this.mouseCheckInterval = setInterval(async () => {
       if (this.isVisible || !this.window) return
       const hideX = this.lastPosition[0]
-      const { width: winWidth } = this.window.getBounds()
+      const hideY = this.lastPosition[1]
+      const { width: winWidth, height: winHeight } = this.window.getBounds()
       const mousePos = robot.getMousePos()
+
+      if (mousePos.y < hideY || mousePos.y > hideY + winHeight) return
 
       if (this.snapState.lastSnappedEdge === 'left') {
         if (Math.abs(mousePos.x - hideX) <= this.MARGIN) {
@@ -139,6 +147,7 @@ export class SlideWindow extends BaseWindow {
       await sleep(this.ANIMATE_DURATION)
       this.isMoving = false
       this.snapState.isSnapping = true
+      this.window.webContents.send(SLIDE_CHANNEL.SNAP_TO_EDGE, edge)
     }
   }
 
@@ -175,7 +184,10 @@ export class SlideWindow extends BaseWindow {
 
     this.isVisible = true
     const { width: winWidth, height: winHeight } = this.window.getBounds()
-    this.window.setAlwaysOnTop(true)
+
+    setTimeout(() => {
+      this.window.setAlwaysOnTop(true)
+    }, 150)
     await this.animateWindowMovement({
       window: this.window,
       targetX: this.lastPosition[0],

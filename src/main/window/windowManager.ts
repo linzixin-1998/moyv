@@ -2,6 +2,7 @@ import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import icon from '../../../public/icon.png?asset'
 import { SlideWindow } from './slideWindow'
+import { nativeTheme, Tray, Menu, app } from 'electron'
 
 // ----------------------------------
 
@@ -12,12 +13,9 @@ export class WindowManager {
   async createMainWindow() {
     let url = ''
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-      // url = process.env['ELECTRON_RENDERER_URL']
-      url = 'https://chatgpt.com/'
+      url = process.env['ELECTRON_RENDERER_URL']
     } else {
-      // const loadFile = join(process.resourcesPath, './app.asar/renderer/index.html')
-      // url = loadFile
-      url = 'https://chatgpt.com/'
+      url = join(__dirname, '../renderer/index.html')
     }
 
     const mainWindow = new SlideWindow({
@@ -26,16 +24,46 @@ export class WindowManager {
       height: 600,
       show: false,
       autoHideMenuBar: true,
-      alwaysOnTop: true,
-      frame: true,
+      alwaysOnTop: false,
+      frame: false,
+      transparent: true,
+
       ...(process.platform === 'linux' ? { icon } : {}),
       webPreferences: {
         preload: join(__dirname, '../preload/index.mjs'),
         sandbox: false,
-        transparent: true
+        transparent: true,
+        webviewTag: true
       }
     })
+
+    nativeTheme.themeSource = 'dark'
     this.mainWindow = mainWindow
+
+    console.log(join(__dirname, 'icon.png'))
+
+    const tray = new Tray(icon) // 这里的 'icon.png' 替换为你的托盘图标路径
+
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: '退出',
+        click: () => {
+          app.quit()
+        }
+      }
+    ])
+
+    tray.setToolTip('我的 Electron 应用')
+    tray.setContextMenu(contextMenu)
+
+    // 点击托盘图标时，显示主窗口
+    // tray.on('click', () => {
+    //   if (mainWindow.window.isVisible()) {
+    //     mainWindow.hideWindow()
+    //   } else {
+    //     mainWindow.showWindow()
+    //   }
+    // })
 
     return this.mainWindow
   }

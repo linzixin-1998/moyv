@@ -16,7 +16,7 @@ export default defineConfig({
     }
   },
   root: resolve(__dirname, 'src/renderer'), // 指定项目根目录
-  publicDir: resolve(__dirname, 'public'), // 指定静态资源目录
+  // publicDir: resolve(__dirname, 'public'), // 指定静态资源目录
   build: {
     outDir: resolve(__dirname, 'dist/web'),
     emptyOutDir: true

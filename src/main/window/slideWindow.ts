@@ -48,11 +48,11 @@ export class SlideWindow extends BaseWindow {
       })
       .on('moved', () => {
         this.isMoving = false
-        // this.snapToEdge()
+        this.snapToEdge()
       })
       .on('blur', async () => {
         if (!this.window || !this.isVisible) return
-        // await this.snapToEdge()
+        await this.snapToEdge()
         await this.hideWindow()
       })
   }
@@ -157,7 +157,6 @@ export class SlideWindow extends BaseWindow {
     if (!this.window || this.window.isDestroyed() || !this.isVisible || !this.snapState.isSnapping)
       return
     this.lastPosition = this.window.getPosition()
-    this.window.setAlwaysOnTop(false)
 
     const { width: winWidth, height: winHeight } = this.window.getBounds()
     const [currentX, currentY] = this.window.getPosition()
@@ -175,7 +174,7 @@ export class SlideWindow extends BaseWindow {
       windowWidth: winWidth,
       windowHeight: winHeight
     })
-
+    this.window.setAlwaysOnTop(false)
     await sleep(this.ANIMATE_DURATION)
     this.window.hide()
     this.isVisible = false
@@ -186,6 +185,8 @@ export class SlideWindow extends BaseWindow {
 
     this.isVisible = true
     const { width: winWidth, height: winHeight } = this.window.getBounds()
+
+    this.window.webContents.send(SLIDE_CHANNEL.SHOW_WINDOW, { duration: this.ANIMATE_DURATION })
 
     setTimeout(() => {
       this.window.setAlwaysOnTop(true)

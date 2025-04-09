@@ -19,5 +19,6 @@ export enum UPDATE_CHANNEL {
 }
 
 export enum SLIDE_CHANNEL {
-  SNAP_TO_EDGE = 'snap-to-edge'
+  SNAP_TO_EDGE = 'snap-to-edge',
+  SHOW_WINDOW = 'show-window'
 }

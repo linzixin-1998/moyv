@@ -9,14 +9,15 @@
       </RouterView>
     </div>
     <MenuDrag v-if="edge === 'left'" position="left" />
+    <div v-if="inAnimation" class="mask"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useElectronUpdate } from '@/renderer/hook/useSlideEvent'
+import { useSlideEvent } from '@/renderer/hook/useSlideEvent'
 import MenuDrag from '@/renderer/components/MenuDrag.vue'
 
-const { edge } = useElectronUpdate()
+const { edge, inAnimation } = useSlideEvent()
 </script>
 
 <style lang="scss" scoped>
@@ -29,6 +30,12 @@ const { edge } = useElectronUpdate()
   .content {
     flex: 1;
     background-color: var(--primary-content-color);
+  }
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9999;
   }
 }
 </style>

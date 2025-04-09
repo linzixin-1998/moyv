@@ -44,4 +44,8 @@ app.on('window-all-closed', () => {
 // 初始化webview菜单
 app.on('web-contents-created', (...[_event, webContents]: [Electron.Event, WebContents]) => {
   setupContextMenu(webContents)
+  webContents.setWindowOpenHandler(({ url }) => {
+    webContents.loadURL(url)
+    return { action: 'deny' }
+  })
 })

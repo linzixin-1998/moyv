@@ -1,8 +1,10 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, WebContents } from 'electron'
 
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 
 import { windowManager } from './window/windowManager'
+
+import { setupContextMenu } from './utils/webviewMenu'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -38,3 +40,8 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// 初始化webview菜单
+app.on('web-contents-created', (...[_event, webContents]: [Electron.Event, WebContents]) => {
+  setupContextMenu(webContents)
+})

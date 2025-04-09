@@ -3,6 +3,7 @@ import { screen } from 'electron'
 import { sleep } from '../utils/baseUtils'
 import robot from 'robotjs'
 import { SLIDE_CHANNEL } from '../../common/electronChannel'
+import electronContextMenu from 'electron-context-menu'
 
 export class SlideWindow extends BaseWindow {
   private snapState = {
@@ -34,6 +35,7 @@ export class SlideWindow extends BaseWindow {
   constructor(option: IBaseWindowOptions) {
     super(option)
     this.registerEvents()
+    this.initContextMenu()
   }
 
   // 注册事件
@@ -46,11 +48,11 @@ export class SlideWindow extends BaseWindow {
       })
       .on('moved', () => {
         this.isMoving = false
-        this.snapToEdge()
+        // this.snapToEdge()
       })
       .on('blur', async () => {
         if (!this.window || !this.isVisible) return
-        await this.snapToEdge()
+        // await this.snapToEdge()
         await this.hideWindow()
       })
   }
@@ -282,6 +284,12 @@ export class SlideWindow extends BaseWindow {
     targetY = window.getPosition()[1]
 
     return { x: targetX, y: targetY }
+  }
+
+  initContextMenu() {
+    electronContextMenu({
+      window: this.window
+    })
   }
 }
 

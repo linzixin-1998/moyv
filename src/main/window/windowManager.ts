@@ -20,8 +20,8 @@ export class WindowManager {
 
     const mainWindow = new SlideWindow({
       url: url,
-      width: 800,
-      height: 600,
+      width: 625,
+      height: 800,
       show: false,
       autoHideMenuBar: true,
       alwaysOnTop: false,

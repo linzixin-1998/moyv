@@ -15,8 +15,12 @@
     <div class="favourites">
       <h2 class="favourites title">Favourites</h2>
       <div class="favourites-list">
-        <div v-for="(favourite, index) in favouritesList" :key="favourite.name + index" class="favourites-item"
-          @click="openWebview(favourite)">
+        <div
+          v-for="(favourite, index) in favouritesList"
+          :key="favourite.name + index"
+          class="favourites-item"
+          @click="openWebview(favourite)"
+        >
           <img class="favourites-icon" :src="favourite.icon" alt="icon" srcset="" />
           <span class="favourites-name">{{ favourite.name }}</span>
         </div>
@@ -39,8 +43,6 @@ import BiliIcon from '@/renderer/assets/icons/biliIcon.svg'
 import RednoteIcon from '@/renderer/assets/icons/rednoteIcon.svg'
 import TikTokIcon from '@/renderer/assets/icons/tikTokIcon.svg'
 import BaiduIcon from '@/renderer/assets/icons/baiduIcon.svg'
-
-
 
 console.log('ChatGptIcon', ChatGptIcon)
 const searchText = ref('')
@@ -83,17 +85,17 @@ const favouritesList = ref<IMenuItem[]>([
   {
     icon: RednoteIcon,
     name: 'Rednote',
-    url: 'https://https://www.xiaohongshu.com/',
+    url: 'https://www.xiaohongshu.com/',
     activityIcon: RednoteIcon,
     route: '/webview'
   },
   {
     icon: TikTokIcon,
     name: 'TikTok',
-    url: 'https://https://www.douyin.com/',
+    url: 'https://www.douyin.com/',
     activityIcon: TikTokIcon,
     route: '/webview'
-  },
+  }
 
   // {
   //   icon: JuejinIcon,

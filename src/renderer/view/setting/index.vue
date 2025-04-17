@@ -15,12 +15,8 @@
     <div class="favourites">
       <h2 class="favourites title">Favourites</h2>
       <div class="favourites-list">
-        <div
-          v-for="(favourite, index) in favouritesList"
-          :key="favourite.name + index"
-          class="favourites-item"
-          @click="openWebview(favourite)"
-        >
+        <div v-for="(favourite, index) in favouritesList" :key="favourite.name + index" class="favourites-item"
+          @click="openWebview(favourite)">
           <img class="favourites-icon" :src="favourite.icon" alt="icon" srcset="" />
           <span class="favourites-name">{{ favourite.name }}</span>
         </div>
@@ -39,6 +35,12 @@ import { IMenuItem } from '@/renderer/types/stores/app'
 import { useRouter } from 'vue-router'
 import NotionIcon from '@/renderer/assets/icons/notionIcon.svg'
 import GoogleIcon from '@/renderer/assets/icons/googleIcon.svg'
+import BiliIcon from '@/renderer/assets/icons/biliIcon.svg'
+import RednoteIcon from '@/renderer/assets/icons/rednoteIcon.svg'
+import TikTokIcon from '@/renderer/assets/icons/tikTokIcon.svg'
+import BaiduIcon from '@/renderer/assets/icons/baiduIcon.svg'
+
+
 
 console.log('ChatGptIcon', ChatGptIcon)
 const searchText = ref('')
@@ -63,7 +65,35 @@ const favouritesList = ref<IMenuItem[]>([
     url: 'https://www.google.co.uk/',
     activityIcon: GoogleIcon,
     route: '/webview'
-  }
+  },
+  {
+    icon: BaiduIcon,
+    name: 'Baidu',
+    url: 'https://www.baidu.com/',
+    activityIcon: BaiduIcon,
+    route: '/webview'
+  },
+  {
+    icon: BiliIcon,
+    name: 'Bilibili',
+    url: 'https://www.bilibili.com/',
+    activityIcon: BiliIcon,
+    route: '/webview'
+  },
+  {
+    icon: RednoteIcon,
+    name: 'Rednote',
+    url: 'https://https://www.xiaohongshu.com/',
+    activityIcon: RednoteIcon,
+    route: '/webview'
+  },
+  {
+    icon: TikTokIcon,
+    name: 'TikTok',
+    url: 'https://https://www.douyin.com/',
+    activityIcon: TikTokIcon,
+    route: '/webview'
+  },
 
   // {
   //   icon: JuejinIcon,
@@ -94,15 +124,18 @@ const openWebview = (item: IMenuItem) => {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
+
   .search-bar {
     margin: 20px auto;
     max-width: 600px;
     padding: 0 20px;
+
     .search-icon {
       width: 20px;
       height: 20px;
     }
   }
+
   .favourites {
     &.title {
       font-size: 24px;
@@ -111,6 +144,7 @@ const openWebview = (item: IMenuItem) => {
       color: var(--primary-text-color);
       margin-top: 40px;
     }
+
     .favourites-list {
       display: flex;
       flex-wrap: wrap;
@@ -127,10 +161,12 @@ const openWebview = (item: IMenuItem) => {
         justify-content: center;
         margin: 16px;
         cursor: pointer;
+
         .favourites-icon {
           width: 40px;
           height: 40px;
         }
+
         .favourites-name {
           font-size: 16px;
           font-weight: bold;

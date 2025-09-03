@@ -1,10 +1,12 @@
-import { app, BrowserWindow, WebContents } from 'electron'
+import { app, BrowserWindow, WebContents, ipcMain } from 'electron'
 
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 
 import { windowManager } from './window/windowManager'
 
 import { setupContextMenu } from './utils/webviewMenu'
+
+import appConfig, { IAppConfig } from './config'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -26,6 +28,18 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) windowManager.createMainWindow()
+  })
+
+  ipcMain.on('update-config', (_e, data: IAppConfig) => {
+    console.log(data)
+    if (data) {
+      Object.keys(data).forEach((key) => {
+        appConfig[key] = data[key]
+      })
+    }
+  })
+  ipcMain.handle('get-config', () => {
+    return { ...appConfig }
   })
 })
 

@@ -1,9 +1,11 @@
 import { BaseWindow, IBaseWindowOptions } from './baseWindow'
-import { screen } from 'electron'
+import { screen, globalShortcut } from 'electron'
 import { sleep } from '../utils/baseUtils'
 import robot from 'robotjs'
 import { SLIDE_CHANNEL } from '../../common/electronChannel'
 import electronContextMenu from 'electron-context-menu'
+
+import appConfig from '../config'
 
 export class SlideWindow extends BaseWindow {
   private snapState = {
@@ -48,13 +50,20 @@ export class SlideWindow extends BaseWindow {
       })
       .on('moved', () => {
         this.isMoving = false
-        this.snapToEdge()
+        if (appConfig.autoAdsorption) {
+          this.snapToEdge()
+        }
       })
       .on('blur', async () => {
         if (!this.window || !this.isVisible) return
         await this.snapToEdge()
         await this.hideWindow()
       })
+    globalShortcut.register('F2', () => {
+      if (appConfig.hideWay === 'shortcutKey') {
+        this.showWindow()
+      }
+    })
   }
 
   detectDisplay() {
@@ -82,6 +91,7 @@ export class SlideWindow extends BaseWindow {
 
     this.mouseCheckInterval = setInterval(async () => {
       if (this.isVisible || !this.window) return
+      if (appConfig.hideWay === 'shortcutKey') return
       const hideX = this.lastPosition[0]
       const hideY = this.lastPosition[1]
       const { width: winWidth, height: winHeight } = this.window.getBounds()

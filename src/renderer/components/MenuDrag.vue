@@ -9,18 +9,31 @@
         @click="openWeview(item)"
       >
         <img class="menu-item-icon" :src="item.icon" alt="icon" srcset="" />
+        <n-icon
+          class="menu-item-close"
+          size="12"
+          color="#fff"
+          @click.stop="appStore.removeMenu(item)"
+        >
+          <Close />
+        </n-icon>
       </div>
+    </div>
+    <div class="menu-item flex-center no-drag" @click="jumpTo('favourites')">
+      <n-icon size="24" color="#fff">
+        <HeartOutline />
+      </n-icon>
     </div>
     <div class="menu-item flex-center no-drag" @click="jumpTo('setting')">
       <n-icon size="24" color="#fff">
-        <Add />
+        <SettingsOutline />
       </n-icon>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Add } from '@vicons/ionicons5'
+import { Close, SettingsOutline, HeartOutline } from '@vicons/ionicons5'
 
 import { useRouter } from 'vue-router'
 import { IMenuItem } from '@/renderer/types/stores/app'
@@ -61,16 +74,25 @@ const jumpTo = (route: string) => {
     width: 40px;
     height: 40px;
     border-radius: 8px;
-
     margin-bottom: 8px;
     cursor: pointer;
+    position: relative;
     .menu-item-icon {
       width: 24px;
       height: 24px;
     }
+    .menu-item-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: none;
+    }
   }
   .menu-item:hover {
     background-color: var(--primary-content-color);
+    .menu-item-close {
+      display: block;
+    }
   }
   .menu-item-activity {
     background-color: var(--primary-content-color);

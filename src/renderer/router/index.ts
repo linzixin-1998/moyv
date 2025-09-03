@@ -15,6 +15,13 @@ export const routes = [
     }
   },
   {
+    path: '/favourites',
+    component: () => import('@/renderer/view/favourites/index.vue'),
+    meta: {
+      title: 'favourites'
+    }
+  },
+  {
     path: '/setting',
     component: () => import('@/renderer/view/setting/index.vue'),
     meta: {

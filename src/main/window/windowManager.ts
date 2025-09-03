@@ -8,7 +8,7 @@ import { nativeTheme, Tray, Menu, app } from 'electron'
 
 export class WindowManager {
   // private windows: Map<string, BrowserWindow> = new Map()
-  private mainWindow: SlideWindow | null = null
+  public mainWindow: SlideWindow | null = null
 
   async createMainWindow() {
     let url = ''
@@ -33,7 +33,11 @@ export class WindowManager {
         preload: join(__dirname, '../preload/index.mjs'),
         sandbox: false,
         transparent: true,
-        webviewTag: true
+        webviewTag: true,
+        webSecurity: false,
+        contextIsolation: false,
+        backgroundThrottling: false,
+        nodeIntegration: true
       }
     })
 

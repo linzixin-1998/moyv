@@ -15,13 +15,13 @@ export interface IBaseWindow {
 
 export interface IBaseWindowOptions extends BrowserWindowConstructorOptions {
   id?: string
-  url: string
+  url?: string
 }
 
 export class BaseWindow implements IBaseWindow {
   id: string
   window: BrowserWindow
-  url: string
+  url?: string
 
   constructor(option: IBaseWindowOptions) {
     this.id = option.id || crypto.randomUUID()
@@ -31,9 +31,10 @@ export class BaseWindow implements IBaseWindow {
   }
 
   initWindow() {
-    this.window.loadURL(this.url).then(() => {
-      this.window.focus()
-    })
+    this.url &&
+      this.window.loadURL(this.url).then(() => {
+        this.window.focus()
+      })
     this.window.on('ready-to-show', () => {
       this.window.show()
     })

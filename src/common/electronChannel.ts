@@ -22,3 +22,7 @@ export enum SLIDE_CHANNEL {
   SNAP_TO_EDGE = 'snap-to-edge',
   SHOW_WINDOW = 'show-window'
 }
+
+export enum EVENT_CHANNEL {
+  UPDATE_CONFIG = 'update-config'
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex column">
+  <n-config-provider class="app flex column" :theme="darkTheme">
     <MenuDrag v-if="edge === 'right'" position="right" />
     <div class="content">
       <RouterView v-slot="{ Component }">
@@ -10,12 +10,13 @@
     </div>
     <MenuDrag v-if="edge === 'left'" position="left" />
     <div v-if="inAnimation" class="mask"></div>
-  </div>
+  </n-config-provider>
 </template>
 
 <script setup lang="ts">
 import { useSlideEvent } from '@/renderer/hook/useSlideEvent'
 import MenuDrag from '@/renderer/components/MenuDrag.vue'
+import { darkTheme } from 'naive-ui'
 
 const { edge, inAnimation } = useSlideEvent()
 </script>

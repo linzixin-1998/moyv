@@ -24,6 +24,7 @@ export const useElectronUpdate = () => {
   const isDownloaded = ref(false)
   const ipcRenderer = window.electron.ipcRenderer
 
+
   const foundNewVersion = (_, info) => {
     if (checkoutCallback) {
       checkoutCallback(true, info)

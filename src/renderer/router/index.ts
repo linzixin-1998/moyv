@@ -1,7 +1,9 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+
+
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useConfigStore } from '@/renderer/stores/modules/config'
 
-export const routes = [
+export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Webview',
@@ -32,7 +34,7 @@ export const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(), // history 模式则使用 createWebHistory()
-  routes
+  routes: routes
 })
 
 router.beforeEach((to, _, next) => {

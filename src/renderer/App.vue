@@ -1,5 +1,8 @@
 <template>
-  <n-config-provider class="app flex column" :theme="darkTheme">
+  <n-config-provider
+    class="app flex column"
+    :theme="settingStore.general.theme === 'dark' ? darkTheme : undefined"
+  >
     <MenuDrag v-if="edge === 'right'" position="right" />
     <div class="content">
       <RouterView v-slot="{ Component }">
@@ -17,8 +20,23 @@
 import { useSlideEvent } from '@/renderer/hook/useSlideEvent'
 import MenuDrag from '@/renderer/components/MenuDrag.vue'
 import { darkTheme } from 'naive-ui'
+import { useSettingStore } from '@/renderer/stores/modules/setting'
+import { onMounted } from 'vue'
+import { useDark } from '@vueuse/core'
 
 const { edge, inAnimation } = useSlideEvent()
+const settingStore = useSettingStore()
+const isDark = useDark()
+
+onMounted(async () => {
+  const appConfig = await (window as any).electron.ipcRenderer.invoke('get-config')
+  settingStore.updateSetting('general', {
+    autoAdsorption: appConfig.autoAdsorption,
+    hideWay: appConfig.hideWay,
+    theme: appConfig.theme
+  })
+  isDark.value = settingStore.general.theme === 'dark'
+})
 </script>
 
 <style lang="scss" scoped>

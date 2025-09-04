@@ -1,4 +1,4 @@
-import { app, BrowserWindow, WebContents, ipcMain } from 'electron'
+import { app, BrowserWindow, WebContents, ipcMain, nativeTheme } from 'electron'
 
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 
@@ -8,12 +8,19 @@ import { setupContextMenu } from './utils/webviewMenu'
 
 import appConfig, { IAppConfig } from './config'
 
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
+
+  if (appConfig.theme) {
+    nativeTheme.themeSource = appConfig.theme
+  }
+
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -35,6 +42,9 @@ app.whenReady().then(() => {
     if (data) {
       Object.keys(data).forEach((key) => {
         appConfig[key] = data[key]
+        if (key === 'theme') {
+          nativeTheme.themeSource = data[key]
+        }
       })
     }
   })

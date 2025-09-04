@@ -1,5 +1,13 @@
 :root {
+  --primary-color: #eee;
+  --primary-content-color: #fff;
+  --primary-text-color: #181818;
+  --primary-icon-color: #181818;
+}
+
+html.dark {
   --primary-color: #181818;
   --primary-content-color: #1f1f1f;
   --primary-text-color: #eee;
+  --primary-icon-color: #fff;
 }

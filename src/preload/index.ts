@@ -1,8 +1,11 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import path from 'node:path'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  preload: path.resolve(__dirname, 'theme.mjs').replace(/\\/g, '/'),
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

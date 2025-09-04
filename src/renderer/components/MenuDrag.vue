@@ -20,12 +20,12 @@
       </div>
     </div>
     <div class="menu-item flex-center no-drag" @click="jumpTo('favourites')">
-      <n-icon size="24" color="#fff">
+      <n-icon size="24" color="var(--primary-icon-color)">
         <HeartOutline />
       </n-icon>
     </div>
     <div class="menu-item flex-center no-drag" @click="jumpTo('setting')">
-      <n-icon size="24" color="#fff">
+      <n-icon size="24" color="var(--primary-icon-color)">
         <SettingsOutline />
       </n-icon>
     </div>

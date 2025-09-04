@@ -31,7 +31,7 @@ const settingMenu = ref([
   .title {
     font-size: 16px;
     margin-bottom: 32px;
-    color: white;
+    color: var(--primary-text-color);
   }
   .tabs {
     height: 100%;

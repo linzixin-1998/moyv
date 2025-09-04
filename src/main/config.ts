@@ -3,6 +3,7 @@ import Store from 'electron-store'
 export interface IAppConfig {
   autoAdsorption: boolean
   hideWay: 'edge' | 'shortcutKey'
+  theme: 'light' | 'dark'
 }
 
 const store: any = new Store()
@@ -13,7 +14,8 @@ console.log(loacl)
 
 let appConfig: IAppConfig = {
   autoAdsorption: true,
-  hideWay: 'shortcutKey'
+  hideWay: 'shortcutKey',
+  theme: 'dark'
 }
 
 if (loacl) {

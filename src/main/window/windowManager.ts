@@ -41,7 +41,7 @@ export class WindowManager {
       }
     })
 
-    nativeTheme.themeSource = 'dark'
+
     this.mainWindow = mainWindow
 
     console.log(join(__dirname, 'icon.png'))

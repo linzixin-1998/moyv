@@ -8340,3 +8340,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // 监听系统主题变化
 mediaQuery.addEventListener('change', handleThemeChange);
+
+setTimeout(() => {
+  handleThemeChange(mediaQuery);
+}, 50);

@@ -71,14 +71,13 @@ const isDark = useDark()
 const switchRef = ref<any>()
 
 const updateConfig = async (key: string, value) => {
-  value = value === 'dark' ? 'light' : 'dark'
-  console.log('updateConfig', key, value)
-  await beforeChange()
-  ;(window as any).electron.ipcRenderer.send('update-config', { [key]: value })
-  settingStore.updateSetting('general', { [key]: value })
   if (key === 'theme') {
+    value = value === 'dark' ? 'light' : 'dark'
+    await beforeChange()
     isDark.value = value === 'dark'
   }
+  ;(window as any).electron.ipcRenderer.send('update-config', { [key]: value })
+  settingStore.updateSetting('general', { [key]: value })
 }
 
 const beforeChange = () => {

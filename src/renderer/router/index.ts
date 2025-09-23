@@ -10,13 +10,6 @@ export const routes: RouteRecordRaw[] = [
     redirect: '/setting'
   },
   {
-    path: '/webview',
-    component: () => import('@/renderer/view/webview/index.vue'),
-    meta: {
-      title: 'webview'
-    }
-  },
-  {
     path: '/favourites',
     component: () => import('@/renderer/view/favourites/index.vue'),
     meta: {

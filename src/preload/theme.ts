@@ -8343,4 +8343,4 @@ mediaQuery.addEventListener('change', handleThemeChange);
 
 setTimeout(() => {
   handleThemeChange(mediaQuery);
-}, 50);
+}, 20);

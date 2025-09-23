@@ -10,6 +10,7 @@
           <component :is="Component" />
         </KeepAlive>
       </RouterView>
+      <Webview />
     </div>
     <MenuDrag v-if="edge === 'left'" position="left" />
     <div v-if="inAnimation" class="mask"></div>
@@ -23,6 +24,7 @@ import { darkTheme } from 'naive-ui'
 import { useSettingStore } from '@/renderer/stores/modules/setting'
 import { onMounted } from 'vue'
 import { useDark } from '@vueuse/core'
+import Webview from '@/renderer/view/webview/index.vue'
 
 const { edge, inAnimation } = useSlideEvent()
 const settingStore = useSettingStore()

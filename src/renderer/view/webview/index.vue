@@ -1,8 +1,9 @@
 <template>
   <div class="webview-container">
-    <webview
+    <CustomWebview
       v-for="item in appStore.menuList"
       v-show="item.name === appStore.activityMenu?.name"
+      ref="webviewRef"
       :key="item.name"
       class="webview"
       :src="item.url"
@@ -17,6 +18,7 @@
 
 <script setup lang="ts">
 import { useAppStore } from '@/renderer/stores/modules/app'
+import CustomWebview from '@/renderer/components/CustomWebview.vue'
 
 const appStore = useAppStore()
 const preload = window.api.preload
@@ -26,9 +28,5 @@ const preload = window.api.preload
 .webview-container {
   width: 100%;
   height: 100%;
-  .webview {
-    width: 100%;
-    height: 100%;
-  }
 }
 </style>

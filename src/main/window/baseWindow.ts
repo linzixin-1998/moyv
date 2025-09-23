@@ -40,9 +40,9 @@ export class BaseWindow implements IBaseWindow {
     })
 
     // 开发者工具
-    // if (process.env.NODE_ENV !== 'production') {
-    //   this.window.webContents.openDevTools()
-    // }
+    if (import.meta.env.MODE !== 'production') {
+      this.window.webContents.openDevTools()
+    }
     return this.id
   }
 

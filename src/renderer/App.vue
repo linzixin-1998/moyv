@@ -3,17 +3,19 @@
     class="app flex column"
     :theme="settingStore.general.theme === 'dark' ? darkTheme : undefined"
   >
-    <MenuDrag v-if="edge === 'right'" position="right" />
-    <div class="content">
-      <RouterView v-slot="{ Component }">
-        <KeepAlive>
-          <component :is="Component" />
-        </KeepAlive>
-      </RouterView>
-      <Webview />
-    </div>
-    <MenuDrag v-if="edge === 'left'" position="left" />
-    <div v-if="inAnimation" class="mask"></div>
+    <n-message-provider>
+      <MenuDrag v-if="edge === 'right'" position="right" />
+      <div class="content">
+        <RouterView v-slot="{ Component }">
+          <KeepAlive>
+            <component :is="Component" />
+          </KeepAlive>
+        </RouterView>
+        <Webview />
+      </div>
+      <MenuDrag v-if="edge === 'left'" position="left" />
+      <div v-if="inAnimation" class="mask"></div>
+    </n-message-provider>
   </n-config-provider>
 </template>
 
@@ -33,9 +35,7 @@ const isDark = useDark()
 onMounted(async () => {
   const appConfig = await (window as any).electron.ipcRenderer.invoke('get-config')
   settingStore.updateSetting('general', {
-    autoAdsorption: appConfig.autoAdsorption,
-    hideWay: appConfig.hideWay,
-    theme: appConfig.theme
+    ...appConfig
   })
   isDark.value = settingStore.general.theme === 'dark'
 })

@@ -4,8 +4,11 @@ import { ISettingState } from '@/renderer/types/stores/setting'
 const defaultSettingState: ISettingState = {
     general: {
         autoAdsorption: true,
-        hideWay: 'edge',
+        showWay: 'edge',
         theme: 'dark'
+    },
+    shortcutKey: {
+        showWay: 'F2'
     }
 }
 

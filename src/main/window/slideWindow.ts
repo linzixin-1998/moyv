@@ -59,11 +59,6 @@ export class SlideWindow extends BaseWindow {
         await this.snapToEdge()
         await this.hideWindow()
       })
-    globalShortcut.register('F2', () => {
-      if (appConfig.hideWay === 'shortcutKey') {
-        this.showWindow()
-      }
-    })
   }
 
   detectDisplay() {
@@ -91,7 +86,7 @@ export class SlideWindow extends BaseWindow {
 
     this.mouseCheckInterval = setInterval(async () => {
       if (this.isVisible || !this.window) return
-      if (appConfig.hideWay === 'shortcutKey') return
+      if (appConfig.showWay === 'shortcutKey') return
       const hideX = this.lastPosition[0]
       const hideY = this.lastPosition[1]
       const { width: winWidth, height: winHeight } = this.window.getBounds()

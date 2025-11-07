@@ -12,12 +12,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import General from './general.vue'
+import ShortcutKey from './shortcutKey.vue'
 
 const settingMenu = ref([
   {
     name: 'general',
-    label: '通用设置',
+    label: '通用',
     component: General
+  },
+  {
+    name: 'shortcutKey',
+    label: '快捷键',
+    component: ShortcutKey
   }
 ])
 </script>

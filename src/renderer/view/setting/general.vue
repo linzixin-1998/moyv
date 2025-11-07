@@ -26,13 +26,13 @@
       </n-form-item>
       <n-form-item label="唤起方式">
         <n-radio-group
-          v-model:value="settingStore.general.hideWay"
+          v-model:value="settingStore.general.showWay"
           name="radiogroup"
-          @change="updateConfig('hideWay', settingStore.general.hideWay)"
+          @change="updateConfig('showWay', settingStore.general.showWay)"
         >
           <n-space>
             <n-radio
-              v-for="song in hideWayOption"
+              v-for="song in showWayOption"
               :key="song.value"
               :title="song.title"
               :value="song.value"
@@ -51,9 +51,8 @@ import { ref, onMounted } from 'vue'
 import { Moon, Sunny } from '@vicons/ionicons5'
 import { useSettingStore } from '@/renderer/stores/modules/setting'
 import { useDark } from '@vueuse/core'
-import { title } from 'process'
 
-const hideWayOption = ref([
+const showWayOption = ref([
   {
     value: 'edge',
     label: '靠经屏幕边缘',

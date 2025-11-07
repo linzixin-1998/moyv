@@ -8,6 +8,7 @@ import { setupContextMenu } from './utils/webviewMenu'
 
 import appConfig, { IAppConfig } from './config'
 
+import { initShortcutKeys } from './models/shortcutKey'
 
 
 // This method will be called when Electron has finished
@@ -51,6 +52,8 @@ app.whenReady().then(() => {
   ipcMain.handle('get-config', () => {
     return { ...appConfig }
   })
+
+  initShortcutKeys()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

@@ -1,11 +1,13 @@
 import Store from 'electron-store'
 import { IShortcutKeyConfig, shortcutKeyHandler, IShortcutKeyUpdateReuslt } from './models/shortcutKey'
+import _ from 'lodash';
 
 export interface IAppConfig {
   autoAdsorption: boolean
   showWay: 'edge' | 'shortcutKey'
   theme: 'light' | 'dark',
   shortcutKey: IShortcutKeyConfig
+  alwaysOnTop: boolean
 }
 
 const store: any = new Store()
@@ -18,13 +20,16 @@ let appConfig: IAppConfig = {
   showWay: 'shortcutKey',
   theme: 'dark',
   shortcutKey: {
-    showWay: 'F2'
-  }
+    showWay: 'F2',
+    alwaysOnTop: 'F3'
+  },
+  alwaysOnTop: true
 }
 
 if (loacl) {
-  appConfig = loacl
+  appConfig = _.merge({}, appConfig, loacl);
 }
+
 
 const appConfigHandler = {
   shortcutKey(value: IShortcutKeyConfig, oldValue: IShortcutKeyConfig): IShortcutKeyUpdateReuslt {
@@ -40,7 +45,7 @@ const appConfigHandler = {
 const handler = {
   set(target, key, value) {
     const updateReuslt = appConfigHandler[key]?.(value, target[key])
-    let configObject = {}
+    let configObject = target[key]
     if (updateReuslt?.[key]) {
       Object.keys(updateReuslt[key]).forEach((k) => {
         updateReuslt[key][k] && (configObject[k] = value[k])

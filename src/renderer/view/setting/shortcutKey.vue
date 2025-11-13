@@ -21,6 +21,23 @@
           >保存</n-button
         >
       </n-form-item>
+      <n-form-item label="应用钉屏" path="shortcut">
+        <n-input
+          v-model:value="formValue.alwaysOnTop"
+          placeholder="请输入快捷键，如 Ctrl+Shift+A"
+          @keydown.prevent="onShortcutInput"
+          readonly
+        />
+        <n-button size="small" @click="resetShortcut('alwaysOnTop')" style="margin: 0 8px"
+          >重置</n-button
+        >
+        <n-button
+          size="small"
+          type="primary"
+          @click="updateConfig('alwaysOnTop', formValue.alwaysOnTop)"
+          >保存</n-button
+        >
+      </n-form-item>
       <n-form-item> </n-form-item>
     </n-form>
   </div>
@@ -41,7 +58,8 @@ const formValue = ref({
 console.log('settingStore.shortcutKey', formValue.value)
 
 const rules = {
-  showWay: [{ required: true, message: '请输入快捷键', trigger: 'blur' }]
+  showWay: [{ required: true, message: '请输入快捷键', trigger: 'blur' }],
+  alwaysOnTop: [{ required: true, message: '请输入快捷键', trigger: 'blur' }]
 }
 
 // 记录按下的键

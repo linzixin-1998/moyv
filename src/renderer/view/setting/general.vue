@@ -18,6 +18,13 @@
           </template>
         </n-switch>
       </n-form-item>
+      <n-form-item label="钉屏模式">
+        <n-switch
+          v-model:value="settingStore.general.alwaysOnTop"
+          :title="alwaysOnTopTitle"
+          @update:value="updateConfig('alwaysOnTop', settingStore.general.alwaysOnTop)"
+        />
+      </n-form-item>
       <n-form-item label="自动吸附" path="user.name">
         <n-switch
           v-model:value="settingStore.general.autoAdsorption"
@@ -34,7 +41,7 @@
             <n-radio
               v-for="song in showWayOption"
               :key="song.value"
-              :title="song.title"
+              :title="showWayTitle(song.value)"
               :value="song.value"
             >
               {{ song.label }}
@@ -55,19 +62,36 @@ import { useDark } from '@vueuse/core'
 const showWayOption = ref([
   {
     value: 'edge',
-    label: '靠经屏幕边缘',
-    title: '靠近屏幕边缘时自动唤起应用'
+    label: '靠经屏幕边缘'
   },
   {
     value: 'shortcutKey',
-    label: '快捷键',
-    title: '按下F2快捷键时自动唤起应用'
+    label: '快捷键'
   }
 ])
 
 const settingStore = useSettingStore()
 const isDark = useDark()
 const switchRef = ref<any>()
+
+const showWayTitle = computed(() => {
+  return (showWayValue): string => {
+    if (showWayValue === 'edge') {
+      return '靠近屏幕边缘时自动唤起应用'
+    } else if (showWayValue === 'shortcutKey') {
+      return `按下${settingStore.shortcutKey.showWay}快捷键时自动唤起应用`
+    } else {
+      return ''
+    }
+  }
+})
+
+const alwaysOnTopTitle = computed(() => {
+  if (settingStore.general.alwaysOnTop) {
+    return `按下${settingStore.shortcutKey.alwaysOnTop}保持窗口始终置顶`
+  }
+  return ''
+})
 
 const updateConfig = async (key: string, value) => {
   if (key === 'theme') {

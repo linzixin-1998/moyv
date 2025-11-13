@@ -21,6 +21,24 @@ export const shortcutKeyHandler: {
         oldShortcutKeyString && globalShortcut.unregister(oldShortcutKeyString)
         console.log('shortcut key register result:', updateReuslt);
         return updateReuslt
+    },
+    alwaysOnTop(shortcutKeyString: string, oldShortcutKeyString?: string) {
+        console.log('register shortcut key:', shortcutKeyString);
+        const updateReuslt = globalShortcut.register(shortcutKeyString, () => {
+            if (!appConfig.alwaysOnTop) return
+            if (!windowManager.mainWindow?.window.isVisible()) return
+            console.log('alwaysOnTop');
+            let isAlwaysOnTop = windowManager.mainWindow?.window.isAlwaysOnTop()
+
+            windowManager.mainWindow?.window.setAlwaysOnTop(!isAlwaysOnTop)
+            if (isAlwaysOnTop) {
+                windowManager.mainWindow?.window.focus()
+                windowManager.mainWindow?.window.blur()
+            }
+        })
+        oldShortcutKeyString && globalShortcut.unregister(oldShortcutKeyString)
+        console.log('shortcut key register result:', updateReuslt);
+        return updateReuslt
     }
 }
 

@@ -13,7 +13,8 @@ export interface ISettingState {
 export interface IGeneralSetting {
     theme: 'light' | 'dark'
     autoAdsorption: boolean
-    showWay: 'edge' | 'shortcutKey'
+    showWay: 'edge' | 'shortcutKey',
+    alwaysOnTop: boolean
 }
 
 

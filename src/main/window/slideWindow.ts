@@ -56,6 +56,8 @@ export class SlideWindow extends BaseWindow {
       })
       .on('blur', async () => {
         if (!this.window || !this.isVisible) return
+
+        if (this.window.isAlwaysOnTop()) return
         await this.snapToEdge()
         await this.hideWindow()
       })
@@ -109,6 +111,7 @@ export class SlideWindow extends BaseWindow {
           this.focus()
         }
       }
+
     }, 100)
   }
 
@@ -142,6 +145,7 @@ export class SlideWindow extends BaseWindow {
     }
 
     const [currentX, currentY] = this.window.getPosition()
+    this.window.setAlwaysOnTop(true)
     if (currentX !== targetPosition.x || currentY !== targetPosition.y) {
       this.snapState.snapPosition = [targetPosition.x, targetPosition.y]
       this.animateWindowMovement({
@@ -156,6 +160,7 @@ export class SlideWindow extends BaseWindow {
       this.snapState.isSnapping = true
       this.window.webContents.send(SLIDE_CHANNEL.SNAP_TO_EDGE, edge)
     }
+    this.window.setAlwaysOnTop(false)
   }
 
   async hideWindow() {
@@ -171,7 +176,7 @@ export class SlideWindow extends BaseWindow {
     } else if (this.snapState.lastSnappedEdge === 'right') {
       x = currentX + winWidth + this.MARGIN
     }
-
+    this.window.setAlwaysOnTop(true)
     await this.animateWindowMovement({
       window: this.window,
       targetX: x,
@@ -180,7 +185,7 @@ export class SlideWindow extends BaseWindow {
       windowHeight: winHeight
     })
     this.window.setAlwaysOnTop(false)
-    await sleep(this.ANIMATE_DURATION)
+
     this.window.hide()
     this.isVisible = false
   }
@@ -188,14 +193,14 @@ export class SlideWindow extends BaseWindow {
   async showWindow() {
     if (!this.window || this.window.isDestroyed()) return
 
+
     this.isVisible = true
     const { width: winWidth, height: winHeight } = this.window.getBounds()
 
     this.window.webContents.send(SLIDE_CHANNEL.SHOW_WINDOW, { duration: this.ANIMATE_DURATION })
 
-    setTimeout(() => {
-      this.window.setAlwaysOnTop(true)
-    }, 150)
+    this.window.setAlwaysOnTop(true)
+    this.window.show()
     await this.animateWindowMovement({
       window: this.window,
       targetX: this.lastPosition[0],
@@ -203,7 +208,7 @@ export class SlideWindow extends BaseWindow {
       windowWidth: winWidth,
       windowHeight: winHeight
     })
-    this.window.show()
+    this.window.setAlwaysOnTop(false)
   }
 
   /** 窗口移动动画 */
@@ -215,29 +220,33 @@ export class SlideWindow extends BaseWindow {
     windowHeight,
     duration = this.ANIMATE_DURATION
   }) {
-    const [startX, startY] = window.getPosition()
-    const startTime = Date.now()
-    const step = () => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
+    return new Promise((resolve, reject) => {
+      const [startX, startY] = window.getPosition()
+      const startTime = Date.now()
+      const step = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
 
-      const currentX = startX + (targetX - startX) * progress
-      const currentY = startY + (targetY - startY) * progress
-      this.moveWindow({
-        window,
-        x: currentX,
-        y: currentY,
-        width: windowWidth,
-        height: windowHeight
-      })
-      if (progress < 1) {
-        setTimeout(step, 1)
-      } else {
-        this.snapState.isSnapping = true
+        const currentX = startX + (targetX - startX) * progress
+        const currentY = startY + (targetY - startY) * progress
+        this.moveWindow({
+          window,
+          x: currentX,
+          y: currentY,
+          width: windowWidth,
+          height: windowHeight
+        })
+        if (progress < 1) {
+          setTimeout(step, 1)
+
+        } else {
+          this.snapState.isSnapping = true
+          resolve(true)
+        }
       }
-    }
 
-    step()
+      step()
+    })
   }
 
   /** 更改窗口位置 */

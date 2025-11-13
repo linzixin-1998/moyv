@@ -5,10 +5,12 @@ const defaultSettingState: ISettingState = {
     general: {
         autoAdsorption: true,
         showWay: 'edge',
-        theme: 'dark'
+        theme: 'dark',
+        alwaysOnTop: true
     },
     shortcutKey: {
-        showWay: 'F2'
+        showWay: 'F2',
+        alwaysOnTop: 'F3'
     }
 }
 

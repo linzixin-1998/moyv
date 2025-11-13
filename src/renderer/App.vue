@@ -37,6 +37,9 @@ onMounted(async () => {
   settingStore.updateSetting('general', {
     ...appConfig
   })
+  settingStore.updateSetting('shortcutKey', {
+    ...appConfig.shortcutKey
+  })
   isDark.value = settingStore.general.theme === 'dark'
 })
 </script>

@@ -3,6 +3,7 @@ import { ShortcutKeyName } from "@/common/types"
 import { windowManager } from '../window/windowManager'
 import { globalShortcut } from 'electron'
 import appConfig from '../config'
+import { message } from "../../main/utils/renderer"
 
 export type IShortcutKeyConfig = Record<ShortcutKeyName, string>;
 export type IShortcutKeyUpdateReuslt = {
@@ -29,11 +30,14 @@ export const shortcutKeyHandler: {
             if (!windowManager.mainWindow?.window.isVisible()) return
             console.log('alwaysOnTop');
             let isAlwaysOnTop = windowManager.mainWindow?.window.isAlwaysOnTop()
-
             windowManager.mainWindow?.window.setAlwaysOnTop(!isAlwaysOnTop)
+
             if (isAlwaysOnTop) {
                 windowManager.mainWindow?.window.focus()
                 windowManager.mainWindow?.window.blur()
+                message(windowManager.mainWindow.window, { type: 'info', message: '取消窗口钉屏' })
+            } else {
+                message(windowManager.mainWindow.window, { type: 'info', message: '开启窗口钉屏' })
             }
         })
         oldShortcutKeyString && globalShortcut.unregister(oldShortcutKeyString)

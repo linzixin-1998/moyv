@@ -99,7 +99,7 @@ const updateConfig = async (key: string, value) => {
     await beforeChange()
     isDark.value = value === 'dark'
   }
-  ;(window as any).electron.ipcRenderer.send('update-config', { [key]: value })
+  window.electron.ipcRenderer.send('update-config', { [key]: value })
   settingStore.updateSetting('general', { [key]: value })
 }
 

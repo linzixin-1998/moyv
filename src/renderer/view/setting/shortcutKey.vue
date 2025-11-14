@@ -98,11 +98,11 @@ function resetShortcut(key: string) {
 
 const updateConfig = async (key: string, value) => {
   settingStore.updateSetting('shortcutKey', { [key]: value })
-  ;(window as any).electron.ipcRenderer.send('update-config', {
+  window.electron.ipcRenderer.send('update-config', {
     shortcutKey: JSON.parse(JSON.stringify({ [key]: value }))
   })
 
-  const appConfig = await (window as any).electron.ipcRenderer.invoke('get-config')
+  const appConfig = await window.electron.ipcRenderer.invoke('get-config')
   if (appConfig.shortcutKey[key] === value) {
     message.success('快捷键保存成功')
   } else {

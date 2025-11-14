@@ -1,47 +1,25 @@
 <template>
-  <n-config-provider
-    class="app flex column"
-    :theme="settingStore.general.theme === 'dark' ? darkTheme : undefined"
-  >
-    <n-message-provider>
-      <MenuDrag v-if="edge === 'right'" position="right" />
-      <div class="content">
-        <RouterView v-slot="{ Component }">
-          <KeepAlive>
-            <component :is="Component" />
-          </KeepAlive>
-        </RouterView>
-        <Webview />
-      </div>
-      <MenuDrag v-if="edge === 'left'" position="left" />
-      <div v-if="inAnimation" class="mask"></div>
-    </n-message-provider>
-  </n-config-provider>
+  <NaiveProvider class="app flex column">
+    <MenuDrag v-if="edge === 'right'" position="right" />
+    <div class="content">
+      <RouterView v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" />
+        </KeepAlive>
+      </RouterView>
+      <Webview />
+    </div>
+    <MenuDrag v-if="edge === 'left'" position="left" />
+    <div v-if="inAnimation" class="mask"></div>
+  </NaiveProvider>
 </template>
 
 <script setup lang="ts">
 import { useSlideEvent } from '@/renderer/hook/useSlideEvent'
 import MenuDrag from '@/renderer/components/MenuDrag.vue'
-import { darkTheme } from 'naive-ui'
-import { useSettingStore } from '@/renderer/stores/modules/setting'
-import { onMounted } from 'vue'
-import { useDark } from '@vueuse/core'
 import Webview from '@/renderer/view/webview/index.vue'
-
+import NaiveProvider from '@/renderer/components/NaiveProvider.vue'
 const { edge, inAnimation } = useSlideEvent()
-const settingStore = useSettingStore()
-const isDark = useDark()
-
-onMounted(async () => {
-  const appConfig = await (window as any).electron.ipcRenderer.invoke('get-config')
-  settingStore.updateSetting('general', {
-    ...appConfig
-  })
-  settingStore.updateSetting('shortcutKey', {
-    ...appConfig.shortcutKey
-  })
-  isDark.value = settingStore.general.theme === 'dark'
-})
 </script>
 
 <style lang="scss" scoped>

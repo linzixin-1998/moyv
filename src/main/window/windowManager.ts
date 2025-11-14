@@ -1,6 +1,6 @@
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
-import icon from '../../../public/icon.png?asset'
+import icon from '../../../public/icon.png'
 import { SlideWindow } from './slideWindow'
 import { nativeTheme, Tray, Menu, app } from 'electron'
 
@@ -71,6 +71,10 @@ export class WindowManager {
 
     return this.mainWindow
   }
+
+
+
+
 }
 
 export const windowManager = new WindowManager()

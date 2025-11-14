@@ -192,9 +192,10 @@ export class SlideWindow extends BaseWindow {
 
   async showWindow() {
     if (!this.window || this.window.isDestroyed()) return
+    if (this.isVisible) return
 
 
-    this.isVisible = true
+
     const { width: winWidth, height: winHeight } = this.window.getBounds()
 
     this.window.webContents.send(SLIDE_CHANNEL.SHOW_WINDOW, { duration: this.ANIMATE_DURATION })
@@ -209,6 +210,7 @@ export class SlideWindow extends BaseWindow {
       windowHeight: winHeight
     })
     this.window.setAlwaysOnTop(false)
+    this.isVisible = true
   }
 
   /** 窗口移动动画 */

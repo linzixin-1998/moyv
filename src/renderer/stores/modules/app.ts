@@ -3,7 +3,8 @@ import { IAppState, IMenuItem } from '@/renderer/types/stores/app'
 
 const defaultAppState: IAppState = {
   menuList: [],
-  activityMenu: null
+  activityMenu: null,
+  history: {}
 }
 
 export const useAppStore = defineStore('app', {
@@ -28,7 +29,11 @@ export const useAppStore = defineStore('app', {
       if (menuItem.name === this.activityMenu?.name) {
         this.activityMenu = null
       }
+      this.history[menuItem.name] = undefined
       this.menuList = this.menuList.filter((item) => item.name !== menuItem.name)
+    },
+    updateHistory(key: string, value: any) {
+      this.history[key] = value
     }
   },
   persist: {

@@ -1,6 +1,5 @@
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
-import icon from '../../../public/icon.png'
 import { SlideWindow } from './slideWindow'
 import { nativeTheme, Tray, Menu, app } from 'electron'
 
@@ -28,7 +27,6 @@ export class WindowManager {
       frame: false,
       transparent: true,
 
-      ...(process.platform === 'linux' ? { icon } : {}),
       webPreferences: {
         preload: join(__dirname, '../preload/index.mjs'),
         sandbox: false,
@@ -44,9 +42,9 @@ export class WindowManager {
 
     this.mainWindow = mainWindow
 
-    console.log(join(__dirname, 'icon.png'))
 
-    const tray = new Tray(icon) // 这里的 'icon.png' 替换为你的托盘图标路径
+
+    const tray = new Tray(join(__dirname, '../../public/icon.png')) // 这里的 'icon.png' 替换为你的托盘图标路径
 
     const contextMenu = Menu.buildFromTemplate([
       {
@@ -57,7 +55,7 @@ export class WindowManager {
       }
     ])
 
-    tray.setToolTip('我的 Electron 应用')
+    tray.setToolTip('m-fish')
     tray.setContextMenu(contextMenu)
 
     // 点击托盘图标时，显示主窗口

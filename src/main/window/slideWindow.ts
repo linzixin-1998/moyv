@@ -96,18 +96,18 @@ export class SlideWindow extends BaseWindow {
 
       if (mousePos.y < hideY || mousePos.y > hideY + winHeight) return
 
+      const display = screen.getDisplayMatching(this.window.getBounds());
+
       if (this.snapState.lastSnappedEdge === 'left') {
         if (Math.abs(mousePos.x - hideX) <= this.MARGIN) {
           await this.showWindow()
-          await sleep(this.ANIMATE_DURATION)
           this.focus()
         }
         return
       } else if (this.snapState.lastSnappedEdge === 'right') {
-        const mosx = hideX + winWidth
+        const mosx = hideX * display.scaleFactor + winWidth * display.scaleFactor
         if (Math.abs(mousePos.x - mosx) <= this.MARGIN) {
           await this.showWindow()
-          await sleep(this.ANIMATE_DURATION)
           this.focus()
         }
       }
@@ -191,9 +191,10 @@ export class SlideWindow extends BaseWindow {
   }
 
   async showWindow() {
+    console.log('showWindow')
     if (!this.window || this.window.isDestroyed()) return
     if (this.isVisible) return
-
+    this.isVisible = true
 
 
     const { width: winWidth, height: winHeight } = this.window.getBounds()
@@ -210,7 +211,6 @@ export class SlideWindow extends BaseWindow {
       windowHeight: winHeight
     })
     this.window.setAlwaysOnTop(false)
-    this.isVisible = true
   }
 
   /** 窗口移动动画 */

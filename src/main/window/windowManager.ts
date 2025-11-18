@@ -44,7 +44,7 @@ export class WindowManager {
 
 
 
-    const tray = new Tray(join(__dirname, '../../public/icon.png')) // 这里的 'icon.png' 替换为你的托盘图标路径
+    const tray = new Tray(join(__dirname, '../public/icon.png')) // 这里的 'icon.png' 替换为你的托盘图标路径
 
     const contextMenu = Menu.buildFromTemplate([
       {

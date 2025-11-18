@@ -5,17 +5,22 @@ import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin({})],
+    plugins: [externalizeDepsPlugin({}), viteStaticCopy({
+      targets: [
+        { src: 'public/*', dest: '../public/' }
+      ]
+    }),],
     build: {
       outDir: 'dist/main'
-    }
+    },
+
   },
   preload: {
     plugins: [externalizeDepsPlugin()],
-
     build: {
       rollupOptions: {
         input: {
@@ -23,6 +28,7 @@ export default defineConfig({
           theme: 'src/preload/theme.ts'
         }
       },
+
       outDir: 'dist/preload'
     }
   },

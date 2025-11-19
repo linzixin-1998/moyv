@@ -19,7 +19,9 @@ const isDark = useDark()
 onMounted(async () => {
   const appConfig = await window.electron.ipcRenderer.invoke('get-config')
   window.electron.ipcRenderer.on(EVENT_CHANNEL.HIDE_MENU, () => {
-    checkoutSettingTip()
+    if (!settingStore.general.hideMenu) {
+      window.$message.info('按下' + settingStore.shortcutKey.hideMenu + '键,可以显示侧边栏菜单')
+    }
     window.electron.ipcRenderer.send('update-config', {
       ['hideMenu']: !settingStore.general.hideMenu
     })
@@ -31,19 +33,15 @@ onMounted(async () => {
   settingStore.updateSetting('shortcutKey', {
     ...appConfig.shortcutKey
   })
-  checkoutSettingTip()
+  if (settingStore.general.hideMenu) {
+    window.$message.info('按下' + settingStore.shortcutKey.hideMenu + '键,可以显示侧边栏菜单')
+  }
   isDark.value = settingStore.general.theme === 'dark'
 })
 
 onBeforeUnmount(() => {
   window.electron.ipcRenderer.removeAllListeners(EVENT_CHANNEL.HIDE_MENU)
 })
-
-const checkoutSettingTip = () => {
-  if (settingStore.general.hideMenu) {
-    window.$message.info('按下' + settingStore.shortcutKey.hideMenu + '键,可以显示侧边栏菜单')
-  }
-}
 
 // 挂载naive组件的方法至window, 以便在路由钩子函数和请求函数里面调用
 const registerNaiveTools = () => {

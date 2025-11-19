@@ -1,6 +1,6 @@
 <template>
   <NaiveProvider class="app flex column">
-    <MenuDrag v-if="edge === 'right'" position="right" />
+    <MenuDrag v-if="edge === 'right' && !settingStore.general.hideMenu" position="right" />
     <div class="content">
       <RouterView v-slot="{ Component }">
         <KeepAlive>
@@ -9,7 +9,7 @@
       </RouterView>
       <Webview />
     </div>
-    <MenuDrag v-if="edge === 'left'" position="left" />
+    <MenuDrag v-if="edge === 'left' && !settingStore.general.hideMenu" position="left" />
     <div v-if="inAnimation" class="mask"></div>
   </NaiveProvider>
 </template>
@@ -19,7 +19,10 @@ import { useSlideEvent } from '@/renderer/hook/useSlideEvent'
 import MenuDrag from '@/renderer/components/MenuDrag.vue'
 import Webview from '@/renderer/view/webview/index.vue'
 import NaiveProvider from '@/renderer/components/NaiveProvider.vue'
+import { useSettingStore } from '@/renderer/stores/modules/setting'
+
 const { edge, inAnimation } = useSlideEvent()
+const settingStore = useSettingStore()
 </script>
 
 <style lang="scss" scoped>

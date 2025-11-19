@@ -38,7 +38,20 @@
           >保存</n-button
         >
       </n-form-item>
-      <n-form-item> </n-form-item>
+      <n-form-item label="隐藏侧边栏">
+        <n-input
+          v-model:value="formValue.hideMenu"
+          placeholder="请输入快捷键，如 Ctrl+Shift+A"
+          @keydown.prevent="onShortcutInput"
+          readonly
+        />
+        <n-button size="small" @click="resetShortcut('hideMenu')" style="margin: 0 8px"
+          >重置</n-button
+        >
+        <n-button size="small" type="primary" @click="updateConfig('hideMenu', formValue.hideMenu)"
+          >保存</n-button
+        >
+      </n-form-item>
     </n-form>
   </div>
 </template>
@@ -59,7 +72,8 @@ console.log('settingStore.shortcutKey', formValue.value)
 
 const rules = {
   showWay: [{ required: true, message: '请输入快捷键', trigger: 'blur' }],
-  alwaysOnTop: [{ required: true, message: '请输入快捷键', trigger: 'blur' }]
+  alwaysOnTop: [{ required: true, message: '请输入快捷键', trigger: 'blur' }],
+  hideMenu: [{ required: true, message: '请输入快捷键', trigger: 'blur' }]
 }
 
 // 记录按下的键

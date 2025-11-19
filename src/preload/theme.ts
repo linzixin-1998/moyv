@@ -8335,6 +8335,7 @@ function handleThemeChange(e) {
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize the theme when the DOM is fully loaded
   // 初始检测
+  addCustomScrollbarStyle();
   handleThemeChange(mediaQuery);
 });
 
@@ -8344,3 +8345,44 @@ mediaQuery.addEventListener('change', handleThemeChange);
 setTimeout(() => {
   handleThemeChange(mediaQuery);
 }, 20);
+
+const isMac = navigator.userAgentData.platform === 'macOS';
+
+// 生成自定义滚动条的 CSS
+function generateScrollbarCSS() {
+  return `
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  `;
+}
+
+// 创建 style 元素并添加 CSS
+function addCustomScrollbarStyle() {
+  if (isMac) return;
+  const exist = document.querySelector('#custom-scrollbar');
+  if (exist) {
+    return;
+  }
+  const style = document.createElement('style');
+  style.id = 'custom-scrollbar'
+  style.textContent = generateScrollbarCSS();
+  document.head.appendChild(style);
+}
+
+

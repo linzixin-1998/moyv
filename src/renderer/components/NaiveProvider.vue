@@ -11,20 +11,39 @@
 import { useSettingStore } from '@/renderer/stores/modules/setting'
 import { useDark } from '@vueuse/core'
 import { darkTheme } from 'naive-ui'
+import { EVENT_CHANNEL } from '@/common/electronChannel'
 
 const settingStore = useSettingStore()
 const isDark = useDark()
 
 onMounted(async () => {
   const appConfig = await window.electron.ipcRenderer.invoke('get-config')
+  window.electron.ipcRenderer.on(EVENT_CHANNEL.HIDE_MENU, () => {
+    checkoutSettingTip()
+    window.electron.ipcRenderer.send('update-config', {
+      ['hideMenu']: !settingStore.general.hideMenu
+    })
+    settingStore.updateSetting('general', { ['hideMenu']: !settingStore.general.hideMenu })
+  })
   settingStore.updateSetting('general', {
     ...appConfig
   })
   settingStore.updateSetting('shortcutKey', {
     ...appConfig.shortcutKey
   })
+  checkoutSettingTip()
   isDark.value = settingStore.general.theme === 'dark'
 })
+
+onBeforeUnmount(() => {
+  window.electron.ipcRenderer.removeAllListeners(EVENT_CHANNEL.HIDE_MENU)
+})
+
+const checkoutSettingTip = () => {
+  if (settingStore.general.hideMenu) {
+    window.$message.info('按下' + settingStore.shortcutKey.hideMenu + '键,可以显示侧边栏菜单')
+  }
+}
 
 // 挂载naive组件的方法至window, 以便在路由钩子函数和请求函数里面调用
 const registerNaiveTools = () => {

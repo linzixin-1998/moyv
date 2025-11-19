@@ -6,11 +6,13 @@ const defaultSettingState: ISettingState = {
         autoAdsorption: true,
         showWay: 'edge',
         theme: 'dark',
-        alwaysOnTop: true
+        alwaysOnTop: true,
+        hideMenu: false
     },
     shortcutKey: {
-        showWay: 'F2',
-        alwaysOnTop: 'F3'
+        showWay: '',
+        alwaysOnTop: '',
+        hideMenu: ''
     }
 }
 

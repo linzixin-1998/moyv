@@ -1,1 +1,1 @@
-export type ShortcutKeyName = 'showWay' | 'alwaysOnTop'
+export type ShortcutKeyName = 'showWay' | 'alwaysOnTop' | 'hideMenu'

@@ -15,6 +15,7 @@ export interface IGeneralSetting {
     autoAdsorption: boolean
     showWay: 'edge' | 'shortcutKey',
     alwaysOnTop: boolean
+    hideMenu: boolean
 }
 
 

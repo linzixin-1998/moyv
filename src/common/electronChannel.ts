@@ -24,5 +24,6 @@ export enum SLIDE_CHANNEL {
 }
 
 export enum EVENT_CHANNEL {
-  UPDATE_CONFIG = 'update-config'
+  UPDATE_CONFIG = 'update-config',
+  HIDE_MENU = 'hide-menu'
 }

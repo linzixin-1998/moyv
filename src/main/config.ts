@@ -21,7 +21,8 @@ let appConfig: IAppConfig = {
   theme: 'dark',
   shortcutKey: {
     showWay: 'F2',
-    alwaysOnTop: 'F3'
+    alwaysOnTop: 'F3',
+    hideMenu: 'F6'
   },
   alwaysOnTop: true
 }

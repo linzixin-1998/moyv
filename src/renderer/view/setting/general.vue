@@ -1,6 +1,6 @@
 <template>
   <div class="general">
-    <n-form ref="formRef" label-placement="left" label-width="auto">
+    <n-form ref="formRef" label-placement="left" label-width="100">
       <n-form-item label="主题">
         <n-switch
           :value="settingStore.general.theme"
@@ -29,6 +29,12 @@
         <n-switch
           v-model:value="settingStore.general.autoAdsorption"
           @update:value="updateConfig('autoAdsorption', settingStore.general.autoAdsorption)"
+        />
+      </n-form-item>
+      <n-form-item label="隐藏侧边栏">
+        <n-switch
+          v-model:value="settingStore.general.hideMenu"
+          @update:value="updateConfig('hideMenu', settingStore.general.hideMenu)"
         />
       </n-form-item>
       <n-form-item label="唤起方式">

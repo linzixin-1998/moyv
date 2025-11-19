@@ -1,3 +1,4 @@
+import { EVENT_CHANNEL } from "@/common/electronChannel"
 import { ShortcutKeyName } from "@/common/types"
 
 import { windowManager } from '../window/windowManager'
@@ -39,6 +40,15 @@ export const shortcutKeyHandler: {
             } else {
                 message(windowManager.mainWindow.window, { type: 'info', message: '开启窗口钉屏' })
             }
+        })
+        oldShortcutKeyString && globalShortcut.unregister(oldShortcutKeyString)
+        console.log('shortcut key register result:', updateReuslt);
+        return updateReuslt
+    },
+    hideMenu(shortcutKeyString: string, oldShortcutKeyString?: string) {
+        console.log('register shortcut key:', shortcutKeyString);
+        const updateReuslt = globalShortcut.register(shortcutKeyString, () => {
+            windowManager.mainWindow?.window.webContents.send(EVENT_CHANNEL.HIDE_MENU)
         })
         oldShortcutKeyString && globalShortcut.unregister(oldShortcutKeyString)
         console.log('shortcut key register result:', updateReuslt);

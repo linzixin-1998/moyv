@@ -9,6 +9,11 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
   main: {
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src')
+      }
+    },
     plugins: [externalizeDepsPlugin({}), viteStaticCopy({
       targets: [
         { src: 'public/*', dest: '../public/' }
@@ -17,7 +22,6 @@ export default defineConfig({
     build: {
       outDir: 'dist/main'
     },
-
   },
   preload: {
     plugins: [externalizeDepsPlugin()],

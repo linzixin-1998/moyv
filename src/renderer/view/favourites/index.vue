@@ -13,7 +13,7 @@
       </n-input> -->
     </div>
     <div class="favourites">
-      <h2 class="favourites title">Favourites</h2>
+      <h2 class="favourites title">我的收藏</h2>
       <div class="favourites-list">
         <div
           v-for="(favourite, index) in favouritesList"
@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { FolderOutline } from '@vicons/ionicons5'
-
 import { ref } from 'vue'
 import ChatGptIcon from '@/renderer/assets/icons/chatGptIcon.svg'
 import { useAppStore } from '@/renderer/stores/modules/app'

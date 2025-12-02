@@ -10,6 +10,8 @@ import appConfig, { IAppConfig } from './config'
 
 import { initShortcutKeys } from './models/shortcutKey'
 
+import { initPlugins } from './models/plugin'
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -31,6 +33,7 @@ app.whenReady().then(() => {
   })
 
   windowManager.createMainWindow()
+  windowManager.createInvisibleWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -54,6 +57,7 @@ app.whenReady().then(() => {
   })
 
   initShortcutKeys()
+  initPlugins()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

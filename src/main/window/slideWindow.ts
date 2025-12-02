@@ -191,9 +191,11 @@ export class SlideWindow extends BaseWindow {
   }
 
   async showWindow() {
-    console.log('showWindow')
+
     if (!this.window || this.window.isDestroyed()) return
+
     if (this.isVisible) return
+    console.log('showWindow')
     this.isVisible = true
 
 

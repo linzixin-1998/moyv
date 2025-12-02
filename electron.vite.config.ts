@@ -7,6 +7,8 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
+
+
 export default defineConfig({
   main: {
     resolve: {

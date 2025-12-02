@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import General from './general.vue'
+import Plugin from './plugin.vue'
 import ShortcutKey from './shortcutKey.vue'
 
 const settingMenu = ref([
@@ -24,6 +25,11 @@ const settingMenu = ref([
     name: 'shortcutKey',
     label: '快捷键',
     component: ShortcutKey
+  },
+  {
+    name: 'plugin',
+    label: '插件',
+    component: Plugin
   }
 ])
 </script>

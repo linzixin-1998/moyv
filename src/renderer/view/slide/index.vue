@@ -1,0 +1,46 @@
+<template>
+  <NaiveProvider class="slide flex column">
+    <MenuDrag v-if="edge === 'right' && !settingStore.general.hideMenu" position="right" />
+    <div class="content">
+      <RouterView v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" />
+        </KeepAlive>
+      </RouterView>
+      <!-- <Webview /> -->
+    </div>
+    <MenuDrag v-if="edge === 'left' && !settingStore.general.hideMenu" position="left" />
+    <div v-if="inAnimation" class="mask"></div>
+  </NaiveProvider>
+</template>
+
+<script setup lang="ts">
+import { useSlideEvent } from '@/renderer/hook/useSlideEvent'
+import MenuDrag from '@/renderer/components/MenuDrag.vue'
+import Webview from '@/renderer/view/slide/webview/index.vue'
+import NaiveProvider from '@/renderer/components/NaiveProvider.vue'
+import { useSettingStore } from '@/renderer/stores/modules/setting'
+
+const { edge, inAnimation } = useSlideEvent()
+const settingStore = useSettingStore()
+</script>
+
+<style lang="scss" scoped>
+.slide {
+  border-radius: 16px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  overflow: hidden;
+  box-shadow: 4px 4px 8px rgba(17, 17, 17, 0.2); /* 立体阴影 */
+  .content {
+    flex: 1;
+    background-color: var(--primary-content-color);
+  }
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9999;
+  }
+}
+</style>

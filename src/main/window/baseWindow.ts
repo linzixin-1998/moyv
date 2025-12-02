@@ -31,6 +31,7 @@ export class BaseWindow implements IBaseWindow {
   }
 
   initWindow() {
+    console.log('Initializing window with URL:', this.url)
     this.url &&
       this.window.loadURL(this.url).then(() => {
         this.window.focus()

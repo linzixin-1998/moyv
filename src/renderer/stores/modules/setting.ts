@@ -13,6 +13,9 @@ const defaultSettingState: ISettingState = {
         showWay: '',
         alwaysOnTop: '',
         hideMenu: ''
+    },
+    plugins: {
+        oneko: false
     }
 }
 

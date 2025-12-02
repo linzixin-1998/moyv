@@ -27,11 +27,15 @@ onMounted(async () => {
     })
     settingStore.updateSetting('general', { ['hideMenu']: !settingStore.general.hideMenu })
   })
+  console.log('appConfig', appConfig)
   settingStore.updateSetting('general', {
     ...appConfig
   })
   settingStore.updateSetting('shortcutKey', {
     ...appConfig.shortcutKey
+  })
+  settingStore.updateSetting('plugins', {
+    ...appConfig.plugins
   })
   if (settingStore.general.hideMenu) {
     window.$message.info('按下' + settingStore.shortcutKey.hideMenu + '键,可以显示侧边栏菜单')

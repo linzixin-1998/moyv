@@ -7,6 +7,9 @@ export interface ISettingState {
     shortcutKey: {
         [K in ShortcutKeyName]?: string; // 可选值
     }
+    plugins: {
+        oneko: boolean
+    }
 }
 
 // 通用设置

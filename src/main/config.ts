@@ -1,6 +1,9 @@
 import Store from 'electron-store'
 import { IShortcutKeyConfig, shortcutKeyHandler, IShortcutKeyUpdateReuslt } from './models/shortcutKey'
+import { IPlugins, pluginHandler } from "./models/plugin"
 import _ from 'lodash';
+
+
 
 export interface IAppConfig {
   autoAdsorption: boolean
@@ -8,6 +11,7 @@ export interface IAppConfig {
   theme: 'light' | 'dark',
   shortcutKey: IShortcutKeyConfig
   alwaysOnTop: boolean
+  plugins: IPlugins
 }
 
 const store: any = new Store()
@@ -24,7 +28,10 @@ let appConfig: IAppConfig = {
     alwaysOnTop: 'F3',
     hideMenu: 'F6'
   },
-  alwaysOnTop: true
+  alwaysOnTop: true,
+  plugins: {
+    oneko: false
+  }
 }
 
 if (loacl) {
@@ -38,6 +45,14 @@ const appConfigHandler = {
     Object.keys(value).forEach((key) => {
       console.log('key', key);
       updateReuslts[key] = shortcutKeyHandler[key]?.(value[key], oldValue[key])
+    })
+    return updateReuslts
+  },
+  plugins(value: IPlugins, oldValue: IPlugins) {
+    let updateReuslts = {};
+    Object.keys(value).forEach((key) => {
+      console.log('key', key);
+      updateReuslts[key] = pluginHandler[key]?.(value[key], oldValue[key])
     })
     return updateReuslts
   }

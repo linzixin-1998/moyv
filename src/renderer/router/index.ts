@@ -6,23 +6,48 @@ import { useConfigStore } from '@/renderer/stores/modules/config'
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Webview',
-    redirect: '/setting'
+    name: 'home',
+    redirect: '/slide'
   },
   {
-    path: '/favourites',
-    component: () => import('@/renderer/view/favourites/index.vue'),
+    path: '/slide',
+    component: () => import('@/renderer/view/slide/index.vue'),
     meta: {
-      title: 'favourites'
-    }
+      title: 'slide'
+    },
+    redirect: '/setting',
+    children: [
+      {
+        path: '/setting',
+        component: () => import('@/renderer/view/slide/setting/index.vue'),
+        meta: {
+          title: 'setting'
+        }
+      },
+      {
+        path: '/favourites',
+        component: () => import('@/renderer/view/slide/favourites/index.vue'),
+        meta: {
+          title: 'favourites'
+        }
+      },
+      {
+        path: '/webview',
+        component: () => import('@/renderer/view/slide/webview/index.vue'),
+        meta: {
+          title: 'webview'
+        }
+      },
+    ]
   },
   {
-    path: '/setting',
-    component: () => import('@/renderer/view/setting/index.vue'),
+    path: '/invisible',
+    component: () => import('@/renderer/view/invisible/index.vue'),
     meta: {
-      title: 'setting'
+      title: 'invisible'
     }
   }
+
 ]
 
 const router = createRouter({

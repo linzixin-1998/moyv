@@ -1,5 +1,5 @@
 <template>
-  <NaiveProvider class="slide flex column">
+  <NaiveProvider id="slide" class="slide flex column">
     <MenuDrag v-if="edge === 'right' && !settingStore.general.hideMenu" position="right" />
     <div class="content">
       <RouterView v-slot="{ Component }">

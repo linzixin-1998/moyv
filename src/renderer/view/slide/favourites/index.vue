@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <n-modal v-model:show="showModal">
+    <n-modal v-model:show="showModal" to="#slide">
       <n-dialog
         title="添加收藏"
         content="你确定"
@@ -148,65 +148,89 @@ const openWebview = (item: IMenuItem) => {
 async function getWebsiteIcon(url) {
   const origin = new URL(url).origin
 
-  // --- 方法 1：解析网页 HTML ---
-  try {
-    const html = await fetch(url).then((r) => r.text())
-    const icon = extractIconFromHtml(html, origin)
-    if (icon) return icon
-  } catch (e) {}
-  // --- 方法 2：尝试 /favicon.ico ---
   try {
     const ico = `${origin}/favicon.ico`
     const res = await fetch(ico)
     if (res.ok) return ico
   } catch (e) {}
+
+  try {
+    const html = await fetch(url).then((r) => r.text())
+    const icon = extractIconFromHtml(html, origin)
+    if (icon) return icon
+  } catch (e) {}
+
   return ''
 }
 
 function extractIconFromHtml(html, origin) {
-  const reg = /<link[^>]+rel=["']?(icon|shortcut icon|apple-touch-icon)["']?[^>]*>/gi
+  const reg = /<link[^>]+rel=["']?[^"']*icon[^"']*["']?[^>]*>/gi
   let match
+
   while ((match = reg.exec(html))) {
     const tag = match[0]
     const hrefMatch = tag.match(/href=["']?([^"'>\s]+)/i)
+
     if (hrefMatch) {
-      let href = hrefMatch[1]
-      if (!href.startsWith('http')) {
-        href = origin + (href.startsWith('/') ? href : '/' + href)
+      let href = hrefMatch[1].trim().toLowerCase()
+
+      // 必须包含 favicon.ico
+      if (!href.includes('favicon.ico')) continue
+
+      // --- ① 完整 URL ---
+      if (href.startsWith('http://') || href.startsWith('https://')) {
+        return href
       }
-      return href
+
+      // --- ② 协议相对路径 (//domain.com/favicon.ico) ---
+      if (href.startsWith('//')) {
+        return 'https:' + href
+      }
+
+      // --- ③ 根路径 (/favicon.ico) ---
+      if (href.startsWith('/')) {
+        return origin + href
+      }
+
+      // --- ④ 普通相对路径 (favicon.ico) ---
+      return origin + '/' + href
     }
   }
+
   return null
 }
 
 const addFavourite = async () => {
-  if (favouriteForm.value.name.trim() === '') {
-    return window.$message.error('名称不能为空')
-  }
-  if (favouriteForm.value.url.trim() === '') {
-    return window.$message.error('网址不能为空')
-  }
+  try {
+    if (favouriteForm.value.name.trim() === '') {
+      return window.$message.error('名称不能为空')
+    }
+    if (favouriteForm.value.url.trim() === '') {
+      return window.$message.error('网址不能为空')
+    }
 
-  const newFavourite: IMenuItem = {
-    icon: await getWebsiteIcon(favouriteForm.value.url),
-    name: favouriteForm.value.name,
-    url: favouriteForm.value.url,
-    activityIcon: await getWebsiteIcon(favouriteForm.value.url),
-    route: '/webview'
+    const newFavourite: IMenuItem = {
+      icon: await getWebsiteIcon(favouriteForm.value.url),
+      name: favouriteForm.value.name,
+      url: favouriteForm.value.url,
+      activityIcon: await getWebsiteIcon(favouriteForm.value.url),
+      route: '/webview'
+    }
+    const list = appStore.favouriteList
+    list.push(newFavourite)
+    appStore.updateFavouriteList(list)
+    favouriteForm.value.url = ''
+    favouriteForm.value.name = ''
+    window.$message.success('添加成功')
+    showModal.value = false
+  } catch (error) {
+    return window.$message.error('请检查链接是否正确')
   }
-  const list = appStore.favouriteList
-  list.push(newFavourite)
-  appStore.updateFavouriteList(list)
-  favouriteForm.value.url = ''
-  favouriteForm.value.name = ''
-  window.$message.success('添加成功')
-  showModal.value = false
 }
 
 const removeFavourite = (favourite: IMenuItem) => {
   dialog.create({
-    content: '你确定该收藏？',
+    content: '你确定删除该收藏？',
     positiveText: '确定',
     negativeText: '取消',
     showIcon: false,

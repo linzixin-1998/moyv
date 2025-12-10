@@ -1,8 +1,10 @@
 <template>
   <n-config-provider :theme="settingStore.general.theme === 'dark' ? darkTheme : undefined">
     <n-message-provider>
-      <slot></slot>
-      <naive-provider-content />
+      <n-dialog-provider>
+        <slot></slot>
+        <naive-provider-content />
+      </n-dialog-provider>
     </n-message-provider>
   </n-config-provider>
 </template>

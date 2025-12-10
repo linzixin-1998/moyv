@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import { Close, SettingsOutline, HeartOutline } from '@vicons/ionicons5'
-
 import { useRouter } from 'vue-router'
 import { IMenuItem } from '@/renderer/types/stores/app'
 import { useAppStore } from '@/renderer/stores/modules/app'
@@ -89,13 +88,13 @@ const jumpTo = (route: string) => {
     }
   }
   .menu-item:hover {
-    background-color: var(--primary-content-color);
+    background-color: var(--hover-color);
     .menu-item-close {
       display: block;
     }
   }
   .menu-item-activity {
-    background-color: var(--primary-content-color);
+    background-color: var(--hover-color);
   }
 }
 </style>

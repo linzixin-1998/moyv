@@ -4,7 +4,8 @@ import { IAppState, IMenuItem } from '@/renderer/types/stores/app'
 const defaultAppState: IAppState = {
   menuList: [],
   activityMenu: null,
-  history: {}
+  history: {},
+  favouriteList: []
 }
 
 export const useAppStore = defineStore('app', {
@@ -34,6 +35,9 @@ export const useAppStore = defineStore('app', {
     },
     updateHistory(key: string, value: any) {
       this.history[key] = value
+    },
+    updateFavouriteList(favouriteList: IMenuItem[]) {
+      this.favouriteList = favouriteList
     }
   },
   persist: {

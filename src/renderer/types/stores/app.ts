@@ -8,6 +8,7 @@ export interface IAppState {
     [key: string]: any
   }
   [name: string]: any
+  favouriteList: IMenuItem[]
 }
 
 export interface IMenuItem {

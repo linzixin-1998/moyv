@@ -8,3 +8,22 @@ body,
   align-content: center;
   justify-content: center;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-content-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0f0f0f;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0e0d0d;
+}
